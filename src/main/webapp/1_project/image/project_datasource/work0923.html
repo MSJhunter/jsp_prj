@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="icon" href="http://192.168.10.221/html_prj/common/images/favicon.png">
+<link rel = "stylesheet" type = "text/css" href = "http://192.168.10.221/html_prj/common/css/main_20240911.css"/>
+<!-- bootstrap CDN 시작 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<style type="text/css"> 
+/* bootstrap CDN 끝 */
+</style>
+ <script type="text/javascript">
+        // 페이지가 로드되면 readName 함수를 실행
+        window.onload = function() {
+        	 showInfo();
+        };
+
+        // 이름과 나이를 입력하는 함수
+        function setInfo() {
+            var name = document.getElementById("nameSearch").value;
+            var age = document.getElementById("ageSearch").value;
+
+            // 이름과 나이가 입력되었는지 확인
+            if (name == "") {
+                alert("이름을 입력해주세요.");
+                return;
+            }
+            if (age == "") {
+                alert("나이를 입력해주세요.");
+                return;
+            }
+            
+           
+            // 이름과 나이를 localStorage에 저장
+            localStorage.setItem("name", name);
+            localStorage.setItem("age", age);
+
+            alert("이름과 나이 저장 완료");
+        }
+
+        // 저장된 이름과 나이를 출력하는 함수
+        function showInfo() {
+            var name = localStorage.getItem("name");
+            var age = localStorage.getItem("age");
+
+            if (name && age) {
+                // 출력할 내용을 div에 표시
+                document.getElementById("output").innerHTML = "이름: " + name + ", 나이: " + age;
+            } else {
+                alert("저장된 정보가 없습니다.");
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <form id="frm">
+        <div class="mb-3">
+            <label for="nameSearch" class="form-label">이름</label>
+            <input type="text" class="form-control" id="nameSearch">
+        </div>
+        <div class="mb-3">
+            <label for="ageSearch" class="form-label">나이</label>
+            <input type="text" class="form-control" id="ageSearch">
+        </div>
+    </form>
+    <div class="mb-3">
+        <input type="button" class="btn btn-primary" value="입력" onclick="setName()">
+        <input type="button" class="btn btn-secondary" value="출력" onclick="showInfo()">
+    </div>
+    <div id="output" class="mt-3"></div> <!-- 출력 결과가 표시될 div -->
+</div>
+</body>
+</html>

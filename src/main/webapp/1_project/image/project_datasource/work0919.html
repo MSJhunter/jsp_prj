@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>주민등록 정보 확인</title>
+    <style>
+        .inputBox {
+            width: 150px;
+        }
+        .btnMy {
+            padding: 5px 10px;
+        }
+        .outputDiv {
+            margin-top: 20px;
+        }
+        #outputDiv {
+            border: 1px solid black;
+            width: 300px;
+            height: 150px;
+            padding: 10px;
+        }
+    </style>
+    <script type="text/javascript">
+        function getValue() {
+            // 입력된 값 가져오기
+            var name = document.getElementById("name").value; 
+            var id_num1 = document.getElementById("id_num1").value;
+            var id_num2 = document.getElementById("id_num2").value;
+
+            // 주민번호 13자리 검증
+            if (id_num1.length !== 6 || id_num2.length !== 7) {
+            	//첫번째 자리가 6자리, 두번째 자리가 7자리가 아니라면
+                document.getElementById("outputDiv").innerHTML = "주민번호의 자릿수를 확인해 주세요!";
+                return;
+            }
+
+            // 생년월일 계산
+            var yearPrefix = (id_num2.charAt(0) === '1' || id_num2.charAt(0) === '2') ? "19" : "20";
+            //?는 조건에 따라 다른 값을 반환하는 삼항 연산자 -> 긍정이면 19, 아니면 20 반환
+            var birthYear = yearPrefix + id_num1.substring(0, 2);
+            var birthMonth = id_num1.substring(2, 4); //문자열 자르기
+            var birthDay = id_num1.substring(4, 6);
+
+            // 성별 확인
+            var gender = (id_num2.charAt(0) === '1' || id_num2.charAt(0) === '3') ? "남" : "여";
+
+            // 나이 계산
+            var currentYear = new Date().getFullYear();
+            var age = currentYear - parseInt(birthYear) + 1;
+
+            // 띠 계산 
+            var zodiacSigns = ["../js0919/images/dog.png","../js0919/images/rat.png", "../js0919/images/ox.png", 
+            	"../js0919/images/tiger.png", "../js0919/images/rabbit.png", "../js0919/images/dragon.png",
+            	"../js0919/images/snake.png", "../js0919/images/horse.png", "../js0919/images/goat.png", 
+            	"../js0919/images/monkey.png", "../js0919/images/rooster.png", "../js0919/images/dog.png", "../js0919/images/pig.png"];
+            var randomIndex = Math.floor(Math.random() * 12);
+            //Math.floor: 소수값 존재시 소수값 버리기
+            var zodiacImage = zodiacSigns[randomIndex];
+
+            // 출력
+            var output = `
+                ${name}님<br>
+                생년월일: ${birthYear}-${birthMonth}-${birthDay}<br>
+                성별: ${gender}<br>
+                나이: ${age}살<br>
+                띠: <img src="${zodiacImage}" alt="띠 이미지" width="50">
+            `;
+
+            document.getElementById("outputDiv").innerHTML = output;
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <form>
+            <table>
+                <tr>
+                    <td><label>이름</label></td>
+                    <td><input type="text" id="name" class="inputBox" /></td>
+                </tr>
+                <tr>
+                    <td><label>주민번호</label></td>
+                    <td><input type="text" id="id_num1" class="inputBox" /></td>
+                    <td> - <input type="password" id="id_num2" class="inputBox" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="button" value="입력" class="btnMy" onclick="getValue()" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <div id="outputDiv" class="outputDiv">출력창</div>
+    </div>
+</body>
+</html>
